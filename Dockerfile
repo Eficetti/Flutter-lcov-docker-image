@@ -33,5 +33,8 @@ RUN flutter doctor
 RUN flutter channel stable
 RUN flutter upgrade
 
+# Activate remove_from_coverage
+RUN dart pub global activate remove_from_coverage
+
 # Verify lcov installation
 RUN lcov --version
