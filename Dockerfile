@@ -15,7 +15,9 @@ RUN apt-get update && apt-get install -y \
     lcov
 
 # Set your environment variables
-ENV PATH="$PATH:/flutter/bin"
+ENV PATH="$PATH:/flutter/bin:/flutter/bin/cache/dart-sdk/bin:/root/.pub-cache/bin"
+ENV PUB_HOSTED_URL=https://pub.flutter-io.cn
+ENV FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
 
 # Clone the Flutter SDK
 RUN git clone https://github.com/flutter/flutter.git /flutter
@@ -26,15 +28,20 @@ RUN chown -R developer:developer /flutter
 # Change to non-root user
 USER developer
 
-# Run flutter doctor
-RUN flutter doctor
-
 # Upgrade Flutter SDK
 RUN flutter channel stable
 RUN flutter upgrade
+
+# Run flutter doctor
+RUN flutter doctor
+
+# Print Flutter version
+RUN flutter --version
+
 
 # Activate remove_from_coverage
 RUN dart pub global activate remove_from_coverage
 
 # Verify lcov installation
 RUN lcov --version
+
